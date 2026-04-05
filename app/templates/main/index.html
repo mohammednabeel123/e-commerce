@@ -10,4 +10,74 @@
         </div>
     </div>
 </section>
+
+<section id="about" class="py-5 bg-light">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">About Us</h2>
+            <p class="text-muted">Timeless fashion. Authentic identity.</p>
+        </div>
+        <hr>
+
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6">
+                <h5 class="fw-semibold mb-3">Our Story</h5>
+
+                <p class="text-muted">
+                    At A. Sanchez, we specialize in vintage and retro fashion from the 1950s to the 1990s.
+                    Every piece is carefully sourced from thrift shops, estate sales, and private collections.
+                </p>
+
+                <p class="text-muted">
+                    We believe clothing is more than style — it’s identity, history, and expression.
+                </p>
+            </div>
+
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <div class="about-image">
+                    <img src="{{ url_for('static', filename='images/about2.jpg') }}" class="img-fluid" alt="About us">
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-1 order-2 mt-4 mt-lg-0">
+                <div class="about-image">
+                    <img src="{{ url_for('static', filename='images/about3.jpg') }}" class="img-fluid" alt="Our commitment">
+                </div>
+            </div>
+
+            <div class="col-lg-6 order-lg-2 order-1">
+                <h5 class="fw-semibold mb-3">Our Commitment</h5>
+
+                <p class="text-muted">
+                    Our mission is to provide high-quality, timeless pieces that allow individuals
+                    to express themselves with confidence and originality.
+                </p>
+
+                <p class="text-muted">
+                    We focus on authenticity, sustainability, and uniqueness in every collection we curate.
+                </p>
+
+                <a href="#" class="btn btn-dark mt-3 px-4">Read More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Our Collection</h2>
+            <p class="text-muted">Selected pieces from the latest drop</p>
+        </div>
+
+        <div class="row">
+            {% for product in products %}
+                {% include 'shop/product_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

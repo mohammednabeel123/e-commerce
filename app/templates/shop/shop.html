@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Shop{% endblock %}
+
+{% block content %}
+<div style="background: white; color: black; padding: 40px;">
+    <h1>SHOP TEST</h1>
+
+    <p>Hardcoded image path:</p>
+    <p>{{ url_for('static', filename='images/image1.jpg') }}</p>
+
+    <img
+        src="{{ url_for('static', filename='images/image1.jpg') }}"
+        width="300"
+        alt="hardcoded test"
+        style="display:block; border:4px solid red;"
+    >
+
+    <hr>
+
+    <p>Dynamic value:</p>
+    <p>{{ products[0].image }}</p>
+
+    <p>Dynamic full path:</p>
+    <p>{{ url_for('static', filename=products[0].image) }}</p>
+
+    <img src="{{ url_for('static', filename=product.images[0]) }}" class="img-fluid" alt="{{ product.name }}">
+</div>
+{% endblock %}

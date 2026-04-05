@@ -77,3 +77,111 @@ body {
     padding: 2px 6px;
     border-radius: 50%;
 }
+
+.product-card {
+    cursor: pointer;
+}
+
+.product-image {
+    overflow: hidden;
+}
+
+.product-image img {
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+.product-info h6 {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.product-info p {
+    font-size: 13px;
+}
+
+#about {
+    background-color: #f9f9f9;
+}
+
+#about h2 {
+    letter-spacing: 1px;
+}
+
+#about p {
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.about-image {
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.about-image img {
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.about-image:hover img {
+    transform: scale(1.05);
+}
+
+.product-card {
+    cursor: pointer;
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image .main-img,
+.product-image .hover-img {
+    width: 100%;
+    display: block;
+}
+
+.product-image .hover-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.product-image .main-img {
+    transition: opacity 0.4s ease;
+}
+
+.product-card:hover .hover-img {
+    opacity: 1;
+}
+
+.product-card:hover .main-img {
+    opacity: 0;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.product-card:hover .overlay {
+    opacity: 1;
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid red;
+}
