@@ -3,27 +3,18 @@
 {% block title %}Shop{% endblock %}
 
 {% block content %}
-<div style="background: white; color: black; padding: 40px;">
-    <h1>SHOP TEST</h1>
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="fw-bold">Shop</h1>
+            <p class="text-muted">Explore our full collection</p>
+        </div>
 
-    <p>Hardcoded image path:</p>
-    <p>{{ url_for('static', filename='images/image1.jpg') }}</p>
-
-    <img
-        src="{{ url_for('static', filename='images/image1.jpg') }}"
-        width="300"
-        alt="hardcoded test"
-        style="display:block; border:4px solid red;"
-    >
-
-    <hr>
-
-    <p>Dynamic value:</p>
-    <p>{{ products[0].image }}</p>
-
-    <p>Dynamic full path:</p>
-    <p>{{ url_for('static', filename=products[0].image) }}</p>
-
-    <img src="{{ url_for('static', filename=product.images[0]) }}" class="img-fluid" alt="{{ product.name }}">
-</div>
+        <div class="row">
+            {% for product in products %}
+                {% include 'shop/product_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

@@ -23,12 +23,12 @@ body {
 .custom-navbar .navbar-brand,
 .custom-navbar .nav-link,
 .custom-navbar .nav-icon {
-    color: white !important;
+    color: rgb(0, 0, 0) !important;
 }
 
 .custom-navbar .nav-link:hover,
 .custom-navbar .nav-icon:hover {
-    color: #dddddd !important;
+    color: #000000 !important;
 }
 
 .hero-search {
@@ -184,4 +184,56 @@ body {
     position: relative;
     overflow: hidden;
     border: 2px solid red;
+}
+
+.hero-section .btn-outline-light:hover {
+    background-color: white;
+    color: black;
+}
+
+#collection .btn-outline-dark {
+    border-radius: 30px;
+}
+
+.site-footer {
+    margin-top: 0;
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+.product-image {
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    display: block;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Hover image initially hidden */
+.hover-img {
+    opacity: 0;
+}
+
+/* On hover */
+.product-card:hover .hover-img {
+    opacity: 1;
+}
+
+.product-card:hover .default-img {
+    opacity: 0;
+}
+
+/* Optional zoom effect */
+.product-card:hover img {
+    transform: scale(1.05);
 }

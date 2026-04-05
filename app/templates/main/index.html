@@ -6,7 +6,11 @@
         <div class="container text-center text-white">
             <h1 class="hero-title">New Collection</h1>
             <p class="hero-subtitle">Discover timeless fashion for every season</p>
-            <a href="#" class="btn btn-light px-4 py-2 mt-3">Shop Now</a>
+
+            <div class="d-flex justify-content-center gap-3 mt-3 flex-wrap">
+                <a href="{{ url_for('shop') }}" class="btn btn-light px-4 py-2">Shop Now</a>
+                <a href="#collection" class="btn btn-outline-light px-4 py-2">View Collection</a>
+            </div>
         </div>
     </div>
 </section>
@@ -66,17 +70,48 @@
     </div>
 </section>
 
-<section class="py-5">
+<section class="py-4 border-top border-bottom bg-white">
     <div class="container">
-        <div class="text-center mb-5">
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <h6 class="fw-semibold mb-1">Premium Quality</h6>
+                <p class="text-muted mb-0 small">Carefully selected pieces with lasting style.</p>
+            </div>
+            <div class="col-md-4">
+                <h6 class="fw-semibold mb-1">Timeless Design</h6>
+                <p class="text-muted mb-0 small">Classic fashion with a modern identity.</p>
+            </div>
+            <div class="col-md-4">
+                <h6 class="fw-semibold mb-1">Curated Collection</h6>
+                <p class="text-muted mb-0 small">Unique garments chosen for confidence and character.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="collection" class="py-5">
+    <div class="container">
+        <div class="text-center mb-4">
             <h2 class="fw-bold">Our Collection</h2>
             <p class="text-muted">Selected pieces from the latest drop</p>
+        </div>
+
+        <div class="d-flex justify-content-center gap-2 flex-wrap mb-4">
+            <a href="{{ url_for('shop') }}" class="btn btn-outline-dark btn-sm px-3">All</a>
+            <a href="{{ url_for('men') }}" class="btn btn-outline-dark btn-sm px-3">Men</a>
+            <a href="{{ url_for('women') }}" class="btn btn-outline-dark btn-sm px-3">Women</a>
+            <a href="{{ url_for('new_arrivals') }}" class="btn btn-outline-dark btn-sm px-3">New Arrivals</a>
+            <a href="{{ url_for('sale') }}" class="btn btn-outline-dark btn-sm px-3">Sale</a>
         </div>
 
         <div class="row">
             {% for product in products %}
                 {% include 'shop/product_card.html' %}
             {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('shop') }}" class="btn btn-dark px-4 py-2">View All Products</a>
         </div>
     </div>
 </section>

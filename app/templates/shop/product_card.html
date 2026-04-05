@@ -1,14 +1,26 @@
 <div class="col-lg-3 col-md-4 col-6 mb-4">
     <div class="product-card">
-        <div class="product-image">
-            <img src="{{ url_for('static', filename=product.images[0]) }}" class="img-fluid" alt="{{ product.name }}">
-        </div>
+        <div class="product-image position-relative">
+    <img
+        src="{{ url_for('static', filename=product.images[0]) }}"
+        class="img-fluid default-img"
+        alt="{{ product.name }}"
+    >
+
+    {% if product.images|length > 1 %}
+    <img
+        src="{{ url_for('static', filename=product.images[1]) }}"
+        class="img-fluid hover-img position-absolute top-0 start-0"
+        alt="{{ product.name }}"
+    >
+    {% endif %}
+</div>
 
         <div class="product-info mt-2">
             <h6 class="mb-1">{{ product.name }}</h6>
             <p class="text-muted mb-2">${{ product.price }}</p>
 
-            <button 
+            <button
                 class="btn btn-sm btn-dark"
                 data-bs-toggle="modal"
                 data-bs-target="#quickViewModal{{ product.id }}">
@@ -31,7 +43,7 @@
                             alt="{{ product.name }}"
                         >
 
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 flex-wrap">
                             {% for img in product.images %}
                                 <img
                                     src="{{ url_for('static', filename=img) }}"
@@ -46,23 +58,44 @@
                     </div>
 
                     <div class="col-md-6">
-                        <h3>{{ product.name }}</h3>
-                        <p class="text-muted">${{ product.price }}</p>
-                        <p>Premium fashion piece from the latest collection.</p>
+                        <h3 class="mb-2">{{ product.name }}</h3>
+                        <p class="text-muted mb-3">${{ product.price }}</p>
 
-                        <button class="btn btn-dark">Add to Cart</button>
+                        <p class="text-muted small mb-4">
+                            {{ product.description }}
+                        </p>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Size *</label>
+                            <select class="form-select">
+                                <option selected disabled>Select</option>
+                                {% for size in product.sizes %}
+                                    <option>{{ size }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Color *</label>
+                            <select class="form-select">
+                                <option selected disabled>Select</option>
+                                {% for color in product.colors %}
+                                    <option>{{ color }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Quantity *</label>
+                            <input type="number" class="form-control" value="1" min="1">
+                        </div>
+
+                        <button class="btn btn-dark w-100 py-2">
+                            Add to Cart
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    function changeMainImage(productId, newSrc) {
-        const mainImage = document.getElementById(`mainImage${productId}`);
-        if (mainImage) {
-            mainImage.src = newSrc;
-        }
-    }
-</script>
