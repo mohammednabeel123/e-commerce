@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg custom-navbar position-absolute top-0 start-0 w-100">
+    <div class="container py-3">
+
+        <a class="navbar-brand fw-bold text-uppercase" href="#">Velora</a>
+
+        <button class="btn d-lg-none text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+            ☰
+        </button>
+
+        <div class="d-none d-lg-flex w-100 align-items-center">
+
+            <ul class="navbar-nav mx-auto gap-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Men</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Women</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">New Arrivals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sale</a>
+                </li>
+            </ul>
+
+            <div class="d-flex align-items-center gap-3">
+                <input class="form-control form-control-sm px-3 hero-search" type="search" placeholder="Search">
+                <a href="#" class="nav-icon">👤</a>
+                <a href="#" class="nav-icon position-relative">
+                    🛒
+                    <span class="cart-badge">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Velora</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <div class="offcanvas-body">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="#">Men</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Women</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">New Arrivals</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
+        </ul>
+
+        <hr>
+
+        <a href="#" class="d-block mb-2">Account</a>
+        <a href="#">Cart</a>
+    </div>
+</div>
