@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart | Velora{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="mb-5">My Cart</h1>
+
+        {% if cart %}
+        <div class="row g-5">
+            <!-- Left: Cart Items -->
+            <div class="col-lg-8">
+                {% for item in cart %}
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body p-4">
+                        <div class="row align-items-center g-4">
+                            <div class="col-md-3">
+                                <img
+                                    src="{{ url_for('static', filename=item.image) }}"
+                                    alt="{{ item.name }}"
+                                    class="img-fluid rounded-3 border"
+                                >
+                            </div>
+
+                            <div class="col-md-5">
+                                <h5 class="mb-2">{{ item.name }}</h5>
+                                <p class="mb-1 text-muted">Size: {{ item.size }}</p>
+                                <p class="mb-1 text-muted">Color: {{ item.color }}</p>
+                                <p class="mb-0 fw-semibold">${{ item.price }}</p>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <form method="POST" action="{{ url_for('decrease_cart_item') }}">
+                                        <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                                        <input type="hidden" name="size" value="{{ item.size }}">
+                                        <input type="hidden" name="color" value="{{ item.color }}">
+                                        <button type="submit" class="btn btn-outline-dark btn-sm">-</button>
+                                    </form>
+
+                                    <span class="fw-semibold">{{ item.quantity }}</span>
+
+                                    <form method="POST" action="{{ url_for('increase_cart_item') }}">
+                                        <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                                        <input type="hidden" name="size" value="{{ item.size }}">
+                                        <input type="hidden" name="color" value="{{ item.color }}">
+                                        <button type="submit" class="btn btn-outline-dark btn-sm">+</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 text-md-end">
+                                <p class="fw-semibold mb-3">
+                                    ${{ item.price * item.quantity }}
+                                </p>
+
+                                <form method="POST" action="{{ url_for('remove_cart_item') }}">
+                                    <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                                    <input type="hidden" name="size" value="{{ item.size }}">
+                                    <input type="hidden" name="color" value="{{ item.color }}">
+                                    <button type="submit" class="btn btn-sm btn-link text-danger p-0">
+                                        Remove
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Promo / Note -->
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Enter a promo code</label>
+                            <input type="text" class="form-control" placeholder="Promo code">
+                        </div>
+
+                        <div>
+                            <label class="form-label fw-semibold">Add a note</label>
+                            <textarea class="form-control" rows="4" placeholder="Write a note for your order..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Summary -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <h4 class="mb-4">Order Summary</h4>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Subtotal</span>
+                            <span>${{ cart_total }}</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Delivery</span>
+                            <span>İstanbul, Turkey</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3 text-muted">
+                            <span>Shipping</span>
+                            <span>--</span>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
+                            <span>Total</span>
+                            <span>${{ cart_total }}</span>
+                        </div>
+
+                        <button class="btn btn-dark w-100 py-3 mb-2">
+                            Checkout
+                        </button>
+
+                        <p class="text-center text-muted small mb-0">
+                            Secure Checkout
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="text-center py-5">
+            <h3 class="mb-3">Your cart is empty</h3>
+            <a href="{{ url_for('shop') }}" class="btn btn-dark">
+                Continue Shopping
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
