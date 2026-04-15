@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+import os 
 
 app = Flask(
     __name__,
@@ -11,9 +12,13 @@ app = Flask(
 # =========================
 # CONFIG
 # =========================
-app.secret_key = "your_secret_key_here"
+app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///store.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
+    "DATABASE_URL",
+    "sqlite:///store.db"
+)
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
