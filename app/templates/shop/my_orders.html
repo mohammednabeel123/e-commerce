@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders | Velora{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="mb-5">My Orders</h1>
+
+        {% if orders %}
+            {% for order in orders %}
+            <div class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5>Order #{{ order.id }}</h5>
+                            <p class="text-muted mb-1">
+                                {{ order.created_at.strftime('%d %B %Y') }}
+                            </p>
+                            <p class="mb-0">
+                                Status:
+                                <strong>{{ order.status }}</strong>
+                            </p>
+                        </div>
+
+                        <div class="text-end">
+                            <h5>${{ order.total_price }}</h5>
+                            <a href="{{ url_for('order_success', order_id=order.id) }}"
+                               class="btn btn-outline-dark btn-sm mt-2">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No orders yet.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

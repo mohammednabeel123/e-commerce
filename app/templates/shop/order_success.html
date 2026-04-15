@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmed | Velora{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="card border-0 shadow-sm rounded-4 mx-auto" style="max-width: 900px;">
+            <div class="card-body p-5">
+                <div class="text-center mb-5">
+                    <h1 class="mb-3">Order Confirmed</h1>
+                    <p class="text-muted mb-0">
+                        Thank you for your order. Your order has been placed successfully.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <p class="mb-2"><strong>Order ID:</strong> #{{ order.id }}</p>
+                    <p class="mb-2"><strong>Status:</strong> {{ order.status }}</p>
+                    <p class="mb-2"><strong>Name:</strong> {{ order.customer_name }}</p>
+                    <p class="mb-2"><strong>Email:</strong> {{ order.customer_email }}</p>
+                    <p class="mb-2"><strong>Phone:</strong> {{ order.phone }}</p>
+                    <p class="mb-2"><strong>City:</strong> {{ order.city }}</p>
+                    <p class="mb-2"><strong>Address:</strong> {{ order.address }}</p>
+                    {% if order.note %}
+                    <p class="mb-0"><strong>Note:</strong> {{ order.note }}</p>
+                    {% endif %}
+                </div>
+
+                <hr class="my-4">
+
+                <h4 class="mb-4">Ordered Items</h4>
+
+                {% for item in order.items %}
+                <div class="d-flex justify-content-between align-items-start border rounded-4 p-3 mb-3">
+                    <div class="d-flex gap-3">
+                        <img
+                            src="{{ url_for('static', filename=item.image) }}"
+                            alt="{{ item.product_name }}"
+                            style="width: 90px; height: 90px; object-fit: cover;"
+                            class="rounded-3 border"
+                        >
+
+                        <div>
+                            <h5 class="mb-1">{{ item.product_name }}</h5>
+                            <p class="mb-1 text-muted">Size: {{ item.size }}</p>
+                            <p class="mb-1 text-muted">Color: {{ item.color }}</p>
+                            <p class="mb-0 text-muted">Quantity: {{ item.quantity }}</p>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <p class="mb-1 fw-semibold">${{ item.price }}</p>
+                        <p class="mb-0 text-muted">
+                            Total: ${{ item.price * item.quantity }}
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0">Grand Total</h4>
+                    <h4 class="mb-0">${{ order.total_price }}</h4>
+                </div>
+
+                <div class="text-center">
+                    <a href="{{ url_for('shop') }}" class="btn btn-dark px-4 py-2">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

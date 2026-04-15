@@ -14,21 +14,38 @@ body {
     padding: 0;
 }
 
-/* NAVBAR OVER HERO */
+/* NAVBAR BASE */
 .custom-navbar {
     z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+/* NAVBAR WHEN ON HERO */
+.home-page .custom-navbar {
     background: transparent;
 }
 
-.custom-navbar .navbar-brand,
-.custom-navbar .nav-link,
-.custom-navbar .nav-icon {
-    color: rgb(0, 0, 0) !important;
+.home-page .custom-navbar .navbar-brand,
+.home-page .custom-navbar .nav-link,
+.home-page .custom-navbar .nav-icon {
+    color: white !important;
 }
 
-.custom-navbar .nav-link:hover,
-.custom-navbar .nav-icon:hover {
-    color: #000000 !important;
+.home-page .custom-navbar .nav-link:hover,
+.home-page .custom-navbar .nav-icon:hover {
+    color: #dddddd !important;
+}
+
+/* NAVBAR ON OTHER PAGES */
+.custom-navbar.bg-white .navbar-brand,
+.custom-navbar.bg-white .nav-link,
+.custom-navbar.bg-white .nav-icon {
+    color: black !important;
+}
+
+.custom-navbar.bg-white .nav-link:hover,
+.custom-navbar.bg-white .nav-icon:hover {
+    color: #555 !important;
 }
 
 .hero-search {
@@ -256,3 +273,4 @@ body {
     padding: 2px 6px;
     border-radius: 50%;
 }
+
