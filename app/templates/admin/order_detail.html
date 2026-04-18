@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Order Detail{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="mb-4">Order #{{ order.id }}</h1>
+
+        <p>
+            <strong>Status:</strong>
+            <span class="badge rounded-pill px-3 py-2
+                {% if order.status == 'Pending' %}bg-secondary
+                {% elif order.status == 'Processing' %}bg-warning text-dark
+                {% elif order.status == 'Shipped' %}bg-primary
+                {% elif order.status == 'Delivered' %}bg-success
+                {% elif order.status == 'Cancelled' %}bg-danger
+                {% endif %}
+            ">
+                {{ order.status }}
+            </span>
+        </p>
+
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h4 class="mb-3">Customer Info</h4>
+                <p><strong>Name:</strong> {{ order.customer_name }}</p>
+                <p><strong>Email:</strong> {{ order.customer_email }}</p>
+                <p><strong>Phone:</strong> {{ order.phone }}</p>
+                <p><strong>City:</strong> {{ order.city }}</p>
+                <p><strong>Address:</strong> {{ order.address }}</p>
+
+                {% if order.note %}
+                <p><strong>Note:</strong> {{ order.note }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h4 class="mb-3">Ordered Items</h4>
+
+                {% for item in order.items %}
+                <div class="d-flex justify-content-between align-items-start border rounded-4 p-3 mb-3">
+                    <div class="d-flex gap-3">
+                        <img
+                            src="{{ url_for('static', filename=item.image) }}"
+                            alt="{{ item.product_name }}"
+                            style="width: 90px; height: 90px; object-fit: cover;"
+                            class="rounded-3 border"
+                        >
+
+                        <div>
+                            <h5 class="mb-1">{{ item.product_name }}</h5>
+                            <p class="mb-1 text-muted">Size: {{ item.size }}</p>
+                            <p class="mb-1 text-muted">Color: {{ item.color }}</p>
+                            <p class="mb-0 text-muted">Quantity: {{ item.quantity }}</p>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <p class="mb-1 fw-semibold">${{ item.price }}</p>
+                        <p class="mb-0 text-muted">
+                            Total: ${{ item.price * item.quantity }}
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <strong>Grand Total</strong>
+                    <strong>${{ order.total_price }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mt-4 mb-4">
+            <div class="card-body p-4">
+                <h4 class="mb-3">Update Status</h4>
+
+                <form method="POST" action="{{ url_for('update_order_status', order_id=order.id) }}">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-4">
+                            <select name="status" class="form-select">
+                                <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                <option value="Processing" {% if order.status == 'Processing' %}selected{% endif %}>Processing</option>
+                                <option value="Shipped" {% if order.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                                <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                                <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-dark w-100">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <a href="{{ url_for('admin_orders') }}" class="btn btn-dark">Back to Orders</a>
+    </div>
+</section>
+{% endblock %}

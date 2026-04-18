@@ -2,27 +2,22 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os 
-
 app = Flask(
     __name__,
     template_folder="app/templates",
     static_folder="app/static"
 )
-
 # =========================
 # CONFIG
 # =========================
-app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
 
+app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
     "DATABASE_URL",
     "sqlite:///store.db"
 )
-
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
 db = SQLAlchemy(app)
-
 # =========================
 # MODELS
 # =========================
@@ -32,12 +27,16 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
 
+    is_admin = db.Column(db.Boolean, default=False)
+
     cart_items = db.relationship(
         "CartItem",
         backref="user",
         lazy=True,
         cascade="all, delete-orphan"
     )
+
+
 
 
 class CartItem(db.Model):
@@ -52,6 +51,9 @@ class CartItem(db.Model):
     size = db.Column(db.String(20), nullable=False)
     color = db.Column(db.String(50), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
+
+
+
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -165,7 +167,21 @@ def get_current_user():
     if not user_id:
         return None
 
+    
     return db.session.get(User, user_id)
+
+
+def get_current_admin():
+    user = get_current_user()
+
+    if not user:
+        return None
+
+    if not user.is_admin:
+        return None
+
+    return user
+
 
 # =========================
 # CONTEXT PROCESSOR (CART COUNT)
@@ -523,7 +539,7 @@ def order_success(order_id):
         id=order_id,
         user_id=current_user.id
     ).first_or_404()
-
+    
     return render_template("shop/order_success.html", order=order)
 
 @app.route("/my-orders")
@@ -542,9 +558,74 @@ def my_orders():
     return render_template("shop/my_orders.html", orders=orders) 
 
 
-# =========================
-# RUN
-# =========================
+@app.route("/admin/orders")
+def admin_orders():
+    admin = get_current_admin()
+
+    if not admin:
+        flash("Access denied.", "danger")
+        return redirect(url_for("home"))
+
+    orders = Order.query.order_by(Order.created_at.desc()).all()
+
+    return render_template("admin/orders.html", orders=orders)
+
+@app.route("/admin/orders/<int:order_id>")
+def admin_order_detail(order_id):
+    admin = get_current_admin()
+
+    if not admin:
+        flash("Access denied.", "danger")
+        return redirect(url_for("home"))
+
+    order = Order.query.get_or_404(order_id)
+
+    return render_template("admin/order_detail.html", order=order)
+
+
+@app.route("/admin/orders/<int:order_id>/status", methods=["POST"])
+def update_order_status(order_id):
+    admin = get_current_admin()
+
+    if not admin:
+        flash("Access denied.", "danger")
+        return redirect(url_for("home"))
+
+    order = Order.query.get_or_404(order_id)
+
+    new_status = request.form.get("status")
+
+    allowed_statuses = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"]
+
+    if new_status not in allowed_statuses:
+        flash("Invalid status.", "danger")
+        return redirect(url_for("admin_order_detail", order_id=order.id))
+
+    order.status = new_status
+    db.session.commit()
+
+    flash("Order status updated.", "success")
+    return redirect(url_for("admin_order_detail", order_id=order.id))
+
+@app.context_processor
+def inject_cart_count():
+    current_user = get_current_user()
+
+    if not current_user:
+        return dict(cart_count=0)
+
+    count = db.session.query(db.func.sum(CartItem.quantity)).filter_by(
+        user_id=current_user.id
+    ).scalar()
+
+    return dict(cart_count=count or 0)
+
+
+@app.context_processor
+def inject_user():
+    return dict(current_user=get_current_user())
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

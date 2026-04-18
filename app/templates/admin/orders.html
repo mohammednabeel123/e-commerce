@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Orders{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="mb-5">All Orders</h1>
+
+        {% if orders %}
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.customer_name }}</td>
+                        <td>${{ order.total_price }}</td>
+
+                        <!-- ✅ UPDATED STATUS COLUMN -->
+                        <td>
+                            <span class="badge rounded-pill px-3 py-2
+                                {% if order.status == 'Pending' %}bg-secondary
+                                {% elif order.status == 'Processing' %}bg-warning text-dark
+                                {% elif order.status == 'Shipped' %}bg-primary
+                                {% elif order.status == 'Delivered' %}bg-success
+                                {% elif order.status == 'Cancelled' %}bg-danger
+                                {% endif %}
+                            ">
+                                {{ order.status }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ order.created_at.strftime('%d %b %Y') if order.created_at else '' }}
+                        </td>
+
+                        <td>
+                            <a href="{{ url_for('admin_order_detail', order_id=order.id) }}" class="btn btn-sm btn-dark">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No orders yet.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
