@@ -13,7 +13,7 @@ app = Flask(
 
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
-    "DATABASE_URL",
+    "postgresql://velora_3szh_user:WAUVWpGKyODPmk986YooiXK7lXJGJ8hz@dpg-d7hucg9j2pic73agj4mg-a/velora_3szh",
     "sqlite:///store.db"
 )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -625,8 +625,8 @@ def inject_cart_count():
 def inject_user():
     return dict(current_user=get_current_user())
 
+with app.app_context():
+    db.create_all()
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
